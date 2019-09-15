@@ -2,6 +2,7 @@
 <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap" rel="stylesheet">
 <style>
     .vertical-center {
         min-height: 100%;
@@ -12,13 +13,16 @@
         display: flex;
         align-items: center;
     }
-    button{
-       background-color: rgb(81,185,166) !important;
-       color: aliceblue !important;
-       font-weight: bold !important;
+
+    button {
+        background-color: rgb(81, 185, 166) !important;
+        color: white !important;
+        font-weight: bold !important;
     }
-    h1{
-        font-weight: bold
+
+    h1 {
+        font-weight: bold;
+        font-family: 'Libre Baskerville', serif;
     }
 </style>
 
@@ -33,23 +37,37 @@
             </div>
             <div class="col-lg-6 vertical-center " style="height: 100%">
 
-                <table style="width: 100%">
+                <table >
+                    <tbody >
+
+                   
                     <tr>
                         <td>
                             <h1 class="fadeInDown">Boring HTML</h1>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="fadeIn" style="animation-duration : 4s">
-                            <div class="row ml-2">
-                                    <button type="button" class="btn m-1" style="width: 100px" onClick="window.location='login.html';"  >Login</button>
-                                    <button type="button" class="btn m-1"style="width: 100px" onClick="window.location='register.html';" >Register</button>
-        
-                            </div>
-                            
+                    
+                   
+                    <tr >
+                       
 
+                        
+                        <td class="fadeIn" style="animation-duration : 2s">
+                            <div class="text-center ">
+                                <button type="button" class="btn m-1" style="width: 100px"
+                                    onClick="window.location='login.html';">Login</button>
+                                <button type="button" class="btn m-1" style="width: 100px"
+                                    onClick="window.location='register.html';">Register</button>
+
+                            </div>
+
+                       
                         </td>
+                  
                     </tr>
+                         
+             
+                </tbody>
                 </table>
 
 
