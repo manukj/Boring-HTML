@@ -1,0 +1,73 @@
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/anime.css') }}">
+<!-- lootifie json file -->
+ <script src="{{ url_for('static', filename="java_script/lootifie.js")}}"></script>
+ <!-- bootstrap css   -->
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
+<style>
+
+
+    .form-control {
+        width: 350px;
+        margin-bottom: 10px
+    }
+
+    h1 {
+        font-weight: bold;
+        font-family: 'Libre Baskerville', serif;
+    }
+</style>
+
+<body>
+    <div class="wrapper">
+        <div class="card  shadow-lg fadeInDown" style="padding: 100px">
+            <div class="row" >
+                <div class="col-lg-6 fadeIn">
+
+                    <div class="d-flex justify-content-end align-items-center">
+
+                        <form method = 'POST' action =''>
+                            <h1 class="mb-5">
+                                <b>Create new account</b>
+                            </h1>
+                            <label>First Name</label>
+                            <input name="firstName" class="form-control" type="text">
+
+                            <label>Last Name</label>
+                            <input name="lastName" class="form-control" type="text">
+
+                            <label>Your Username</label>
+                            <input name="userName" class="form-control" type="text">
+
+                            <label>Your password</label>
+                            <input class="form-control" placeholder="******" type="password" name = "password">
+                            <table style="width: 100%"
+                                <tr>
+
+                                    <td> <button type="submit" class="mt-2 form-control btn btn-primary btn-block">
+                                            Register </button>
+                                    </td>
+                                <tr>
+                                    <td> Have an account ?<a class="ml-2" href="renderLoginAccessPage">Login </a> </td>
+                                </tr>
+
+                                </tr>
+
+                            </table>
+                        </form>
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+
+                    <lottie-player src="{{ url_for('static', filename="json_file/login.json")}}" background="transparent" speed="1"
+                        style="width: 100%; height: 100%;" autoplay>
+                    </lottie-player>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>

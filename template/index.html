@@ -1,0 +1,86 @@
+
+  <!-- shadow and fadein animation -->
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/anime.css') }}">
+<script src="{{ url_for('static', filename="java_script/lootifie.js")}}"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap" rel="stylesheet">
+<style>
+    .vertical-center {
+        min-height: 100%;
+        /* Fallback for browsers do NOT support vh unit */
+        min-height: 100vh;
+        /* These two lines are counted as one :-)       */
+
+        display: flex;
+        align-items: center;
+    }
+
+    button {
+        background-color: rgb(7, 7, 7) !important;
+        color: white !important;
+        font-weight: bold !important;
+    }
+
+    h1 {
+        font-weight: bold;
+        font-family: 'Libre Baskerville', serif;
+    }
+</style>
+
+<body>
+      
+    <div class="container fadeIn ">
+        <div class="row" style="height: 100%">
+            <div class="col-lg-6">
+                <lottie-player  src="{{ url_for('static', filename="json_file/coding.json")}}" background="transparent" speed="1"
+                    style="width: 100%; height: 100%;" autoplay>
+                </lottie-player>
+            </div>
+            <div class="col-lg-6 vertical-center " style="height: 100%">
+
+                <table >
+                    <tbody >
+
+
+                    <tr>
+                        <td>
+                            <h1 class="fadeInDown">Boring HTML</h1>
+                        </td>
+                    </tr>
+
+
+                    <tr >
+
+
+
+                        <td class="fadeIn" style="animation-duration : 2s">
+                            <div class="text-center ">
+                                <button type="button" class="btn m-1" style="width: 100px"
+                                onClick="window.location='renderLoginAccessPage';">Login</button>
+                                <button type="button" class="btn m-1" style="width: 100px"
+                                onClick="window.location='registerUser';">Register</button>
+                                   
+
+                            </div>
+
+
+                        </td>
+
+                    </tr>
+
+
+                </tbody>
+                </table>
+
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+</body>
