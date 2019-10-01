@@ -126,6 +126,9 @@
     ::-webkit-scrollbar-thumb:hover {
         background: #353535;
     }
+    body{
+        overflow: hidden;
+    }
 </style>
 
 <script>
@@ -177,9 +180,9 @@
             <div class="col-12 upper">
                 <div class="row">
                     <div class="col-3 bg-white name align-self-center ">
-                        <p id="profile_name">Manu K J </h1><br>
+                        <p id="profile_name"> {{result.get('firstName')}}</h1><br>
                             <p id="total_project"> 25 <b style="font-size: 15px">Projetcs</b></p>
-                            <a href="index.html" class="text-body stretched-link" style="font-size: 15px">Logout</a>
+                            <a href="login" class="text-body stretched-link" style="font-size: 15px">Logout</a>
                     </div>
                     <div class="col-9  p-2 ">
                         <!-- camera_video_screen  -->
@@ -245,7 +248,7 @@
                 onclick="window.location.href='edit.html'">
                 <img src="static/dummy_image/project.jpeg" class="card-img-top" style="height: 50%" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">Project 1</h5>
+                    <h5 class="card-title">Project {{i}}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">28/19/2019</h6>
                     <p class="card-text">small description about the project .</p>
                 </div>
