@@ -1,9 +1,9 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/anime.css') }}">
- <!-- lootifie json file -->
- <script src="{{ url_for('static', filename="java_script/lootifie.js")}}"></script>
- <!-- bootstrap css   -->
- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<!-- lootifie json file -->
+<script src="{{ url_for('static', filename="java_script/lootifie.js")}}"></script>
+<!-- bootstrap css   -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
 
 
@@ -22,11 +22,17 @@
         font-weight: bold;
         font-family: 'Libre Baskerville', serif;
     }
+    
 </style>
 
 
 <body>
-    
+        <div class="wrapper">
+                {% if us %}
+                <div class="alert alert-danger" role="alert">
+                    {{us}}
+                </div>
+                {% endif %}
     <div class="wrapper">
 
         <div class="card shadow-lg fadeInDown">
@@ -35,29 +41,35 @@
 
                     <div class="d-flex justify-content-end align-items-center" style="width: 90% ; height: 100%; ">
 
-                        <form method = "POST" action = "">
+                        <form  class="needs-validation"  method='POST' action='' novalidate >
                             <h1 class="mb-5">
                                 <b>Login your Account</b>
                             </h1>
-                            <label>Your Username</label>
-                            <input name="username" class="form-control" placeholder="Username" type="text">
-
+                            <label>Your Email</label>
+                            <input name="email" id="email" class="form-control" placeholder="Username" type="mail" required>
+                            <div class="invalid-feedback">
+                                Please Provide First Name.
+                              </div>
                             <label>Your password</label>
-                            <input class="form-control" placeholder="******" type="password" name="password">
+                            <input class="form-control" id="pass" placeholder="******" type="password" name="password" required>
+                            <div class="invalid-feedback">
+                                Please Provide First Name.
+                              </div>
                             <table class="ml-2" style="width: 100%">
                                 <tr>
 
-                                    <td> <button type="button" class="btn btn-block" onClick="window.location='registerUser';"
-                                style="width: 150px; border-color:blue">Register</button>
-                        </td>
+                                    <td> <button type="button" class="btn btn-block"
+                                            onClick="window.location='registerUser';"
+                                            style="width: 150px; border-color:blue">Register</button>
+                                    </td>
 
 
-                        <td> <button type="submit"
-                            class="btn btn-primary btn-block" style="width: 150px;">
-                            Login  </button>
-                    </td>
+                                    <td> <input type="submit" onclick="validate()" class="btn btn-primary btn-block"
+                                            style="width: 150px;" value="Login" name="myButton">
+                                        
+                                    </td>
 
-                </form>
+                        </form>
                         </tr>
                         </table>
 
@@ -66,8 +78,8 @@
                 </div>
                 <div class="col-6">
 
-                    <lottie-player src="{{ url_for('static', filename="json_file/login.json")}}" background="transparent" speed="1"
-                        style="width: 100%; height: 100%;" autoplay>
+                    <lottie-player src="{{ url_for('static', filename="json_file/login.json")}}"
+                        background="transparent" speed="1" style="width: 100%; height: 100%;" autoplay>
                     </lottie-player>
                 </div>
             </div>
@@ -75,3 +87,25 @@
     </div>
 
 </body>
+
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function() {
+      'use strict';
+      window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+          form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+              event.preventDefault();
+              event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+          }, false);
+        });
+      }, false);
+    })();
+    </script>

@@ -1,6 +1,6 @@
 import pyrebase
 from firebase.firebase import FirebaseApplication
-import bcrypt
+
 
 import json
 from flask import Flask, request, jsonify, render_template
@@ -35,10 +35,12 @@ def renderIndexPage():
 
 @app.route("/renderLoginAccessPage", methods = ['GET', 'POST'])
 def renderLoginAccessPage():
-    if request.method == 'POST':
+    if request.method == 'GET':
+        firebase = pyrebase.initialize_app(firebaseConfig)
+        auth = firebase.auth()
         data = request.form.to_dict()
         print("JSON data: ", data)
-        email = str(data.get("userName"))
+        email = str(data.get("email"))
         password = str(data.get("password"))
         try:
             user = auth.sign_in_with_email_and_password(email,password)
@@ -46,18 +48,19 @@ def renderLoginAccessPage():
             render_template('dashboard.html',result = data)
         except Exception as e:
             print(e)
-            render_template("login.html",re = "jhh")
+            e = json.loads(e.args[1])
+            e = (e["error"]["message"])
+            return render_template("login.html",us = e)
     return render_template("login.html")
 
 
 @app.route("/registerUser", methods = ['POST','GET'])
 def registerUser():
-    error = None
     if request.method == 'POST':
         data = request.form.to_dict()
         print(data)
         # username = str(data.get("userName"))
-        email = str(data.get("userName"))
+        email = str(data.get("email"))
         firstName = str(data.get("firstName"))
         lastName = str(data.get("lastName"))
         password = str(data.get("password"))
@@ -68,7 +71,10 @@ def registerUser():
         data["lastName"] = lastName
         data["password"] = password
         data["email"] = email
-        data["project"] = 0
+        data["project"] = {
+            "total" : 0,
+            "projects":{}
+        }
         # firebase = FirebaseApplication('https://boring-html.firebaseio.com/', None)
         firebase = pyrebase.initialize_app(firebaseConfig)
 
@@ -76,6 +82,8 @@ def registerUser():
         try:
             auth.create_user_with_email_and_password(email,password)
         except Exception as e:
+            e = json.loads(e.args[1])
+            e = (e["error"]["message"])
             return render_template("register.html",us = e)
         db = firebase.database()
         db.child(firstName).set(data)
@@ -88,7 +96,7 @@ def registerUser():
 # logout
 @app.route("/login")
 def dashboard():
-    login_status = 0;
+    login_status = 0
     return render_template('index.html')
 
 if __name__ == '__main__':

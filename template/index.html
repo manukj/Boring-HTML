@@ -1,10 +1,10 @@
-
-  <!-- shadow and fadein animation -->
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/anime.css') }}">
+<!-- shadow and fadein animation -->
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/anime.css') }}">
 <script src="{{ url_for('static', filename="java_script/lootifie.js")}}"></script>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Poppins&display=swap" rel="stylesheet">
 <style>
     .vertical-center {
         min-height: 100%;
@@ -17,61 +17,73 @@
     }
 
     button {
-        background-color: rgb(7, 7, 7) !important;
+        background-color: #1F1F58 !important;
         color: white !important;
         font-weight: bold !important;
     }
 
     h1 {
         font-weight: bold;
+        color: #1F1F58;
         font-family: 'Libre Baskerville', serif;
     }
+p{
+    font-family: 'Poppins', sans-serif;
+    font-size: 25px;
+    color: rgba(0, 0, 0, 0.548)
+}
+  
 </style>
+<script>
+
+    window.onload = function () {
+        typeWriter();
+    };
+
+
+    var i = 0;
+    var txt = "Get things done,quick and easy ............ \n convert Sketch TO HTML Code"; 
+    var speed = 50;
+
+    function typeWriter() {
+        if (i < txt.length) {
+            document.getElementById("demo").innerHTML += txt.charAt(i);
+            i++;
+            setTimeout(typeWriter, speed);
+        }
+    }
+</script>
 
 <body>
-      
+
     <div class="container fadeIn ">
         <div class="row" style="height: 100%">
             <div class="col-lg-6">
-                <lottie-player  src="{{ url_for('static', filename="json_file/coding.json")}}" background="transparent" speed="1"
-                    style="width: 100%; height: 100%;" autoplay>
+                <lottie-player src="../static/json_file/coding.json" background="transparent"
+                    speed="1" style="width: 100%; height: 100%;" autoplay>
                 </lottie-player>
             </div>
             <div class="col-lg-6 vertical-center " style="height: 100%">
+                <div class="row">
+                    <div class="col-12 ">
+                        <h1 class="fadeInDown text-center">Boring HTML</h1>
+                    </div>
+                    <div class="align-items-center">
+                        <p class="text-center" id="demo">
 
-                <table >
-                    <tbody >
-
-
-                    <tr>
-                        <td>
-                            <h1 class="fadeInDown">Boring HTML</h1>
-                        </td>
-                    </tr>
-
-
-                    <tr >
-
-
-
-                        <td class="fadeIn" style="animation-duration : 2s">
-                            <div class="text-center ">
-                                <button type="button" class="btn m-1" style="width: 100px"
+                        </p>
+                    </div>
+                    <div class="col-12 fadeIn" style="animation-duration : 9s">
+                        <div class="text-center">
+                            <button type="button " class="btn m-1 shadow-lg" style="width: 100px"
                                 onClick="window.location='renderLoginAccessPage';">Login</button>
-                                <button type="button" class="btn m-1" style="width: 100px"
+                            <button type="button" class="btn m-1 shadow-lg" style="width: 100px"
                                 onClick="window.location='registerUser';">Register</button>
-                                   
+                        </div>
 
-                            </div>
+                    </div>
 
-
-                        </td>
-
-                    </tr>
-
-
-                </tbody>
-                </table>
+                </div>
 
 
 
