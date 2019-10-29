@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         <!-- font  -->
-   
+
     <title>
         Dashboard
     </title>
@@ -182,7 +182,7 @@
                     <div class="col-3 bg-white name align-self-center ">
                         <p id="profile_name"> {{result.get('firstName')}}</h1><br>
                             <p id="total_project"> {{result.get('project').get('total')}} <b style="font-size: 15px">Projetcs</b></p>
-                            <a href="login" class="text-body stretched-link" style="font-size: 15px">Logout</a>
+                            <a href="logOut" class="text-body stretched-link" style="font-size: 15px">Logout</a>
                     </div>
                     <div class="col-9  p-2 ">
                         <!-- camera_video_screen  -->
@@ -228,7 +228,7 @@
                                     </div>
                                 </div>
                                 <div class="col-8">
-                                    <img class="border fadeIn" 
+                                    <img class="border fadeIn"
                                         src="static/dummy_image/project.jpeg" id="project_demo">
 
                                 </div>
@@ -254,10 +254,10 @@
                 </div>
             </div>
                {% endfor %}
-       
-               
 
-               
+
+
+
 
 
 
