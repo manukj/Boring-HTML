@@ -2,10 +2,11 @@ import pyrebase
 from firebase.firebase import FirebaseApplication
 import json
 from flask import Flask, request, jsonify, render_template,session, escape, request, redirect, url_for
-
 from subprocess import call
 from os import urandom
-
+import numpy as np
+import urllib.request
+import cv2
 
 app = Flask(__name__,template_folder='template')
 app.debug = True
@@ -13,6 +14,7 @@ app.secret_key = urandom(24)
 
 login_status = 0
 
+#this is enough
 firebaseConfig = {
   'apiKey': "AIzaSyD8N-HKhsTOmo-4IgxbTXmlVZb1ZmWpVg0",
   'authDomain': "boring-html.firebaseapp.com",
@@ -43,16 +45,6 @@ def renderLoginAccessPage():
         auth = firebase.auth()
         data = request.form.to_dict()
         print("JSON data: ", data)
-<<<<<<< HEAD
-        firstName = str(data.get("firstName"))
-        password = str(data.get("password"))
-        try:
-            user = auth.sign_in_with_email_and_password(email,password)
-            db = firebase.database()
-            data = db.child(firstName).get()
-            print(data)
-            render_template('dashboard.html',result = data)
-=======
         print(str(data.get("email")))
         print(str(data.get("password")))
         email = str(data.get("email"))
@@ -77,7 +69,6 @@ def renderLoginAccessPage():
             data1["project"] =  values.get("project")
             session['username'] = email
             return redirect(url_for('renderIndexPage'))
->>>>>>> 1d5e7af534a600c129ea001aa2b8b311df463eb1
         except Exception as e:
             print("error ",e)
             # e = json.loads(e.args[1])
@@ -98,75 +89,77 @@ def registerUser():
         password = str(data.get("password"))
         # password = password.encode('ASCII')
         # hashed = bcrypt.hashpw(password, bcrypt.gensalt())
-<<<<<<< HEAD
-        data = {}
-        data["firstName"] = firstName
-        data["lastName"] = lastName
-        data["password"] = password
-        data["email"] = email
-        data["project"] = {
-            "total" : 0,
-            "projects": 0 
-        }
-=======
 
         data1["firstName"] = firstName
         data1["lastName"] = lastName
         data1["password"] = password
         data1["email"] = email
-	
-	pjt = {}
-	projects = {}
-	pjt["Name"] = "Project1"
-	pjt["disc"] = "...................."
-	pjt["image"] = "image path"	
-	
-	projects['total'] = 0
-	projects['project'] = pjt
-        data1["project"] = projects
->>>>>>> 1d5e7af534a600c129ea001aa2b8b311df463eb1
+        data1["project"] = {"total":0}
+
+        projects = {}
+        pjt = {}
+        pjt ["desc"] = "This is the first project's desciption."
+        pjt ["img"] = "a.jpg"
+        pjt ["code"] = "a.text"
+        projects["project1"] = pjt
+
+
+        pjt = {}
+        pjt ["desc"] = "This is the second project's desciption."
+        pjt ["img"] = "a.jpg"
+        pjt ["code"] = "a.text"
+        projects["project2"] = pjt
+        data1["project"]["projects"] = projects
+    #
+	# pjt = {}
+	# projects = {}
+	# pjt["Name"] = "Project1"
+	# pjt["disc"] = "...................."
+	# pjt["image"] = "image path"
+
+	# projects['total'] = 0
+	# projects['project'] = pjt
+    #     data1["project"] = projects
         # firebase = FirebaseApplication('https://boring-html.firebaseio.com/', None)
         firebase = pyrebase.initialize_app(firebaseConfig)
+
         auth = firebase.auth()
         try:
             auth.create_user_with_email_and_password(email,password)
-            db = firebase.database()
-            db.child(firstName).set(data)
-            print("added")
-            return render_template('dashboard.html',result = data)
         except Exception as e:
             e = json.loads(e.args[1])
             e = (e["error"]["message"])
             return render_template("register.html",us = e)
-<<<<<<< HEAD
-
-=======
         db = firebase.database()
-        db.child(firstName).set(data)
+        db.child(firstName).set(data1)
         print("added")
         session['username'] = email
         return redirect(url_for('renderIndexPage'))
->>>>>>> 1d5e7af534a600c129ea001aa2b8b311df463eb1
     else:
         return render_template("register.html")
 
 
-<<<<<<< HEAD
-# logout
-@app.route("/edit.html")
-def dashboard():
-    login_status = 0
-    return render_template('edit.html')
-=======
-
-
+@app.route("/MachineLearning.html" ,methods = ['POST','GET'])
+def MachineLearning():
+    # data = request.form.to_dict()
+    # print("JSON data: displaying", data)
+    # return render_template("login.html")
+    # npimg = numpy.fromfile(request.files['image'], numpy.uint8)
+    # # convert numpy array to image
+    # img = cv2.imdecode(npimg, cv2.IMREAD_GRAYSCALE)
+    # cv2.imshow('dst_rt', img)
+    url = (request.form['custId'])
+    resp = urllib.request.urlopen(url)
+    image = np.asarray(bytearray(resp.read()), dtype="uint8")
+    image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+    
+    return render_template('MachineLearning.html')
 
 @app.route("/logOut")
 def logOut():
     session.pop('username')
     return redirect(url_for('renderIndexPage'))
 
->>>>>>> 1d5e7af534a600c129ea001aa2b8b311df463eb1
 
 if __name__ == '__main__':
    flag_login = 0

@@ -2,6 +2,11 @@
 
 <head>
 
+    <!-- bootstrap css   -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+
     <!-- shadow and fadein animation -->
     <link rel="stylesheet" type="text/css" href="static/css/anime.css">
     <!-- lootifie json file -->
@@ -9,7 +14,20 @@
     <!-- bootstrap css   -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <!-- font  -->
+    <!-- font  -->
+
+
+    <!-- Cropping Image  file -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.1/cropper.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script name="jquery-croper-script">
+        !function (e, r) { "object" == typeof exports && "undefined" != typeof module ? r(require("jquery"), require("cropperjs")) : "function" == typeof define && define.amd ? define(["jquery", "cropperjs"], r) : r(e.jQuery, e.Cropper) }(this, function (c, s) { "use strict"; if (c = c && c.hasOwnProperty("default") ? c.default : c, s = s && s.hasOwnProperty("default") ? s.default : s, c.fn) { var e = c.fn.cropper, d = "cropper"; c.fn.cropper = function (p) { for (var e = arguments.length, a = Array(1 < e ? e - 1 : 0), r = 1; r < e; r++)a[r - 1] = arguments[r]; var u = void 0; return this.each(function (e, r) { var t = c(r), n = "destroy" === p, o = t.data(d); if (!o) { if (n) return; var f = c.extend({}, t.data(), c.isPlainObject(p) && p); o = new s(r, f), t.data(d, o) } if ("string" == typeof p) { var i = o[p]; c.isFunction(i) && ((u = i.apply(o, a)) === o && (u = void 0), n && t.removeData(d)) } }), void 0 !== u ? u : this }, c.fn.cropper.Constructor = s, c.fn.cropper.setDefaults = s.setDefaults, c.fn.cropper.noConflict = function () { return c.fn.cropper = e, this } } });
+    </script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.4.1/cropper.min.css" />
+    <script src="cropper.js"></script>
+    <link rel="stylesheet" href="cropper.css" />
+    <!-- end of Cropping Image  -->
 
     <title>
         Dashboard
@@ -96,10 +114,6 @@
         animation: 2s;
     }
 
-    input[type="file"] {
-        width: 0px;
-        height: 0px;
-    }
 
     .crusor {
         cursor: pointer;
@@ -126,7 +140,8 @@
     ::-webkit-scrollbar-thumb:hover {
         background: #353535;
     }
-    body{
+
+    body {
         overflow: hidden;
     }
 </style>
@@ -181,14 +196,9 @@
                 <div class="row">
                     <div class="col-3 bg-white name align-self-center ">
                         <p id="profile_name"> {{result.get('firstName')}}</h1><br>
-<<<<<<< HEAD
-                            <p id="total_project"> 0 <b style="font-size: 15px">Projetcs</b></p>
-                            <!-- <p id="total_project"> {{result.get('project').get('total')}} <b style="font-size: 15px">Projetcs</b></p> -->
-                            <a href="login" class="text-body stretched-link" style="font-size: 15px">Logout</a>
-=======
-                            <p id="total_project"> {{result.get('project').get('total')}} <b style="font-size: 15px">Projetcs</b></p>
+                            <p id="total_project"> {{result.get('project').get('total')}} <b
+                                    style="font-size: 15px">Projetcs</b></p>
                             <a href="logOut" class="text-body stretched-link" style="font-size: 15px">Logout</a>
->>>>>>> 1d5e7af534a600c129ea001aa2b8b311df463eb1
                     </div>
                     <div class="col-9  p-2 ">
                         <!-- camera_video_screen  -->
@@ -199,12 +209,14 @@
                                         Upload Image
                                     </p>
 
-                                    <label for="file-upload" class="crusor" style="width: 100%; height: 400px;">
-                                        <lottie-player src="{{ url_for('static', filename="json_file/upload.json")}}" background="transparent" speed="1"
-                                            autoplay loop>
+
+                                    <a id="myBtn" href="#">
+                                        <lottie-player src="../static/json_file/upload.json" background="transparent"
+                                            speed="1" autoplay loop>
                                         </lottie-player>
-                                    </label>
-                                    <input id="file-upload" type="file" onchange="upload()" />
+                                    </a>
+
+
 
 
                                 </div>
@@ -214,8 +226,9 @@
                                         Live Video
                                     </p>
                                     <a href="#">
-                                        <lottie-player src="{{ url_for('static', filename="json_file/coming.json")}}"  background="transparent" speed="1"
-                                            style="width: 100%; height: 400px;" autoplay loop>
+                                        <lottie-player src="{{ url_for('static', filename="json_file/coming.json")}}"
+                                            background="transparent" speed="1" style="width: 100%; height: 400px;"
+                                            autoplay loop>
                                         </lottie-player>
                                     </a>
                                 </div>
@@ -234,8 +247,7 @@
                                     </div>
                                 </div>
                                 <div class="col-8">
-                                    <img class="border fadeIn"
-                                        src="static/dummy_image/project.jpeg" id="project_demo">
+                                    <img class="border fadeIn" src="static/dummy_image/project.jpeg" id="project_demo">
 
                                 </div>
                             </div>
@@ -251,27 +263,263 @@
                 <!-- each project  -->
                 {% for i in range(11) %}
                 <div class="card shadow crusor" onmouseover="showProject(1)" onmouseout="showUpload()"
-                onclick="window.location.href='edit.html'">
-                <img src="static/dummy_image/project.jpeg" class="card-img-top" style="height: 50%" alt="...">
-                <div class="card-body">
-                    <h5 class="card-title">Project {{i}}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">28/19/2019</h6>
-                    <p class="card-text">small description about the project .</p>
+                    onclick="window.location.href='edit.html'">
+                    <img src="static/dummy_image/project.jpeg" class="card-img-top" style="height: 50%" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Project {{i}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">28/19/2019</h6>
+                        <p class="card-text">small description about the project .</p>
+                    </div>
                 </div>
-            </div>
-               {% endfor %}
-
-
-
-
-
-
-
+                {% endfor %}
             </div>
         </div>
     </div>
+
+
+
+
+    <!-- The Modal or the popup to upload the project -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <center>
+                    <h2>Creating a new Project</h2>
+                    <input type="file" name="image" id="image" onchange="ICropper.readUrl(this);" />
+                    <div class="image-container">
+                        <img id="cropper-canvas-image" />
+                    </div>
+
+
+                    <form action="MachineLearning.html" id="form" method="POST">
+                        <label>ProjectName :</label> <input type="text" name="projectName" /><br>
+                        <input type="hidden" id="custId" name="custId">
+                        <div id="cropped-result"></div>
+                        <button class="btn btn-dark " onclick="ICropper.cropImage(this)">Upload</submit>
+                    </form>
+
+                    <!-- <h2>Creating a new Project</h2>
+
+                        <label>ProjectName :</label> <input type="text" name="projectName" /><br>
+
+                        <div id="cropped-result"></div>
+                        <button class="btn btn-dark " onclick="ICropper.cropImage(this)">Upload</submit>
+                 -->
+                </center>
+
+            </div>
+
+        </div>
 </body>
 
 
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal 
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+
+    let ICropper = (function ($) {
+        let $cropperCanvasImage = $('#cropper-canvas-image');
+        return {
+            readUrl,
+            cropImage
+        }
+
+
+        function readUrl(input) {
+            if (input.files && input.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    $cropperCanvasImage.attr('src', e.target.result)
+                };
+                reader.readAsDataURL(input.files[0]);
+                setTimeout(initCropper, 1000);
+            }
+        }
+
+        function initCropper() {
+            $cropperCanvasImage.cropper({
+                aspectRatio: 1 / 1
+            });
+        }
+
+        function cropImage() {
+            let imgUrl = $cropperCanvasImage.data('cropper').getCroppedCanvas().toDataURL();
+            document.getElementById("custId").value = imgUrl;
+            document.getElementById("form").submit();
+        }
+    })(jQuery)
+</script>
+
+
+
+
+<style>
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* The Modal (background) */
+    .modal {
+        display: none;
+        /* Hidden by default */
+        position: fixed;
+        /* Stay in place */
+        z-index: 1;
+        /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%;
+        /* Full width */
+        height: 100%;
+        /* Full height */
+        overflow: auto;
+        /* Enable scroll if needed */
+        background-color: rgb(0, 0, 0);
+        /* Fallback color */
+        background-color: rgba(0, 0, 0, 0.4);
+        /* Black w/ opacity */
+        -webkit-animation-name: fadeIn;
+        /* Fade in the background */
+        -webkit-animation-duration: 0.6s;
+        animation-name: fadeIn;
+        animation-duration: 0.6s
+    }
+
+    /* Modal Content */
+    .modal-content {
+        position: fixed;
+        bottom: 0;
+        background-color: #fefefe;
+        width: 100%;
+        -webkit-animation-name: slideIn;
+        -webkit-animation-duration: 0.6s;
+        animation-name: slideIn;
+        animation-duration: 0.6s
+    }
+
+    /* The Close Button */
+    .close {
+        color: white;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .modal-header {
+        padding: 2px 16px;
+        background-color: black;
+        color: white;
+    }
+
+    .modal-body {
+        padding: 2px 16px;
+        margin-bottom: 50px;
+    }
+
+
+    /* Add Animation */
+    @-webkit-keyframes slideIn {
+        from {
+            bottom: -300px;
+            opacity: 0
+        }
+
+        to {
+            bottom: 0;
+            opacity: 1
+        }
+    }
+
+    @keyframes slideIn {
+        from {
+            bottom: -300px;
+            opacity: 0
+        }
+
+        to {
+            bottom: 0;
+            opacity: 1
+        }
+    }
+
+    @-webkit-keyframes fadeIn {
+        from {
+            opacity: 0
+        }
+
+        to {
+            opacity: 1
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0
+        }
+
+        to {
+            opacity: 1
+        }
+    }
+</style>
