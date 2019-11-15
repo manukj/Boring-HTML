@@ -1,0 +1,29 @@
+item {
+  id: 1
+  name: 'text'
+}
+
+item {
+  id: 2
+  name: 'dropdown'
+}
+
+item {
+  id: 3
+  name: 'img'
+}
+
+item {
+  id: 4
+  name: 'checkbox'
+}
+
+item {
+  id: 5
+  name: 'button'
+}
+
+item {
+  id: 6
+  name: 'radio'
+}

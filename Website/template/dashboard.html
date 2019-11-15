@@ -144,6 +144,17 @@
     body {
         overflow: hidden;
     }
+
+    #Loading {
+        visibility: hidden;
+        background: #000000;
+        width: 100%;
+        height: 100%;
+    }
+
+    #Content {
+        visibility: visible;
+    }
 </style>
 
 <script>
@@ -151,6 +162,7 @@
         //  hide project_screern
         document.getElementById("project_screen").style.visibility = "hidden";
         document.getElementById("project_screen").style.height = "0%";
+        document.getElementById("Loading").style.height = "0%"
     })
 
 
@@ -190,7 +202,11 @@
 </script>
 
 <body>
-    <div class="container-fluid  fadeInDown " style="animation-duration: 1s">
+    <div id="Loading" class="fadeInDown">
+        <lottie-player src="../static/json_file/machineLearning.json" background="transparent" speed="1" autoplay loop>
+        </lottie-player>
+    </div>
+    <div class="container-fluid  fadeInDown " id="Content" style="animation-duration: 1s">
         <div class="row shadow-lg">
             <div class="col-12 upper">
                 <div class="row">
@@ -263,7 +279,7 @@
                 <!-- each project  -->
                 {% for i in range(11) %}
                 <div class="card shadow crusor" onmouseover="showProject(1)" onmouseout="showUpload()"
-                    onclick="window.location.href='edit.html'">
+                    onclick="window.location.href='edit'">
                     <img src="static/dummy_image/project.jpeg" class="card-img-top" style="height: 50%" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Project {{i}}</h5>
@@ -290,31 +306,24 @@
             <div class="modal-body">
                 <center>
                     <h2>Creating a new Project</h2>
-                    <input type="file" name="image" id="image" onchange="ICropper.readUrl(this);" />
+                    <input style="margin: 10px;" type="file" name="image" id="image"
+                        onchange="ICropper.readUrl(this);" />
                     <div class="image-container">
                         <img id="cropper-canvas-image" />
                     </div>
-
-
                     <form action="MachineLearning.html" id="form" method="POST">
-                        <label>ProjectName :</label> <input type="text" name="projectName" /><br>
                         <input type="hidden" id="custId" name="custId">
                         <div id="cropped-result"></div>
-                        <button class="btn btn-dark " onclick="ICropper.cropImage(this)">Upload</submit>
+                        <button style="margin: 10px;" class="btn btn-dark " onclick="ICropper.cropImage(this)"
+                            data-toggle="modal" data-target=".bd-example-modal-lg">Upload</submit>
                     </form>
 
-                    <!-- <h2>Creating a new Project</h2>
-
-                        <label>ProjectName :</label> <input type="text" name="projectName" /><br>
-
-                        <div id="cropped-result"></div>
-                        <button class="btn btn-dark " onclick="ICropper.cropImage(this)">Upload</submit>
-                 -->
                 </center>
 
             </div>
 
         </div>
+
 </body>
 
 
@@ -392,13 +401,16 @@
 
         function initCropper() {
             $cropperCanvasImage.cropper({
-                aspectRatio: 1 / 1
+                aspectRatio: 0
             });
         }
 
         function cropImage() {
             let imgUrl = $cropperCanvasImage.data('cropper').getCroppedCanvas().toDataURL();
             document.getElementById("custId").value = imgUrl;
+            document.getElementById("Loading").style.height = "100%"
+            document.getElementById("Loading").style.visibility = "visible";
+            document.getElementById("myModal").style.visibility = "hidden";
             document.getElementById("form").submit();
         }
     })(jQuery)
