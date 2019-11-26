@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <link rel="shortcut icon" href="../static/title.png" />
 <style>
     .card {
         height: 1000px;
@@ -29,15 +29,15 @@
         <div class="col-sm  text-center border-right  ">
                 <input class="btn btn-primary" type="button" value="Run" onclick="show()">
             <div class="card shadow-lg">
-                <textarea style="width: 100%; height:100%" id="html_file"> 
-
+                <textarea style="width: 100%; height:100%"  id="html_file" > 
+                        {{code}}
                 </textarea>
             </div>
         </div>
         <div class="col-sm   text-center">
                 <input class="btn btn-primary" type="button" value="Download">
                 <div class="card shadow-lg">
-                        <iframe id="html_screen"  style="width: 100%; height:100%"></iframe>
+                        <iframe id="html_screen" srcdoc="{{code}}" style="width: 100%; height:100%"></iframe>
                 </div>
             </div>
 

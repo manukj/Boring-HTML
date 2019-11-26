@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-
+    <link rel="shortcut icon" href="../static/title.png" />
 
 <style>
     .card {
@@ -22,90 +22,90 @@
         font-weight: bold;
         font-family: 'Libre Baskerville', serif;
     }
-    
 </style>
 
 
 <body>
-        <div class="wrapper">
-                {% if us %}
-                <div class="alert alert-danger" role="alert">
-                    {{us}}
-                </div>
-                {% endif %}
     <div class="wrapper">
+        {% if us %}
+        <div class="alert alert-danger" role="alert">
+            {{us}}
+        </div>
+        {% endif %}
+        <div class="wrapper">
 
-        <div class="card shadow-lg fadeInDown">
-            <div class="row" style="height: 100%">
-                <div class="col-6 fadeIn">
+            <div class="card shadow-lg fadeInDown">
+                <div class="row" style="height: 100%">
+                    <div class="col-6 fadeIn">
 
-                    <div class="d-flex justify-content-end align-items-center" style="width: 90% ; height: 100%; ">
+                        <div class="d-flex justify-content-end align-items-center" style="width: 90% ; height: 100%; ">
 
-                        <form  class="needs-validation"  method='POST' action='' novalidate >
-                            <h1 class="mb-5">
-                                <b>Login your Account</b>
-                            </h1>
-                            <label>Your Email</label>
-                            <input name="email"  class="form-control" placeholder="Email" type="mail" required>
-                            <div class="invalid-feedback">
-                                Please Provide First Name.
-                              </div>
-                            <label>Your password</label>
-                            <input class="form-control" name="password" placeholder="******" type="password"  required>
-                            <div class="invalid-feedback">
-                                Please Provide First Name.
-                              </div>
-                            <table class="ml-2" style="width: 100%">
-                                <tr>
+                            <form class="needs-validation" method='POST' action='' novalidate>
+                                <h1 class="mb-5">
+                                    <b>Login your Account</b>
+                                </h1>
+                                <label>Your Email</label>
+                                <input name="email" class="form-control" placeholder="Email" type="mail" required>
+                                <div class="invalid-feedback">
+                                    Please Provide First Name.
+                                </div>
+                                <label>Your password</label>
+                                <input class="form-control" name="password" placeholder="******" type="password"
+                                    required>
+                                <div class="invalid-feedback">
+                                    Please Provide First Name.
+                                </div>
+                                <table class="ml-2" style="width: 100%">
+                                    <tr>
 
-                                    <td> <button type="button" class="btn btn-block"
-                                            onClick="window.location='registerUser';"
-                                            style="width: 150px; border-color:blue">Register</button>
-                                    </td>
+                                        <td> <button type="button" class="btn btn-block"
+                                                onClick="window.location='registerUser';"
+                                                style="width: 150px; border-color:blue">Register</button>
+                                        </td>
 
 
-                                    <td> <input type="submit" onclick="validate()" class="btn btn-primary btn-block"
-                                            style="width: 150px;" value="Login" name="myButton">
-                                        
-                                    </td>
+                                        <td> <input type="submit" onclick="validate()" class="btn btn-primary btn-block"
+                                                style="width: 150px;" value="Login" name="myButton">
 
-                        </form>
-                        </tr>
-                        </table>
+                                        </td>
+
+                            </form>
+                            </tr>
+                            </table>
+
+                        </div>
 
                     </div>
+                    <div class="col-6">
 
-                </div>
-                <div class="col-6">
-
-                    <lottie-player src="{{ url_for('static', filename="json_file/login.json")}}"
-                        background="transparent" speed="1" style="width: 100%; height: 100%;" autoplay>
-                    </lottie-player>
+                        <lottie-player src="{{ url_for('static', filename="json_file/login.json")}}"
+                            background="transparent" speed="1" style="width: 100%; height: 100%;" autoplay>
+                        </lottie-player>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 </body>
 
 
 <script>
     // Example starter JavaScript for disabling form submissions if there are invalid fields
-    (function() {
-      'use strict';
-      window.addEventListener('load', function() {
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        var forms = document.getElementsByClassName('needs-validation');
-        // Loop over them and prevent submission
-        var validation = Array.prototype.filter.call(forms, function(form) {
-          form.addEventListener('submit', function(event) {
-            if (form.checkValidity() === false) {
-              event.preventDefault();
-              event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-          }, false);
-        });
-      }, false);
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
     })();
-    </script>
+</script>

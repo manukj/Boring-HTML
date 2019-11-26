@@ -81,7 +81,7 @@ image_expanded = np.expand_dims(image, axis=0)
 
 # Draw the results of the detection (aka 'visulaize the results')
 
-vis_util.visualize_boxes_and_labels_on_image_array(
+image,code = vis_util.visualize_boxes_and_labels_on_image_array(
     image,
     np.squeeze(boxes),
     np.squeeze(classes).astype(np.int32),
@@ -93,7 +93,11 @@ vis_util.visualize_boxes_and_labels_on_image_array(
 
 # All the results have been drawn on image. Now display the image.
 
-cv2.imwrite("output.jpg", img) 
+print(code)
+file = open("output.html",'w')
+file.write(code)
+file.close()
+cv2.imwrite("output.jpg", image) 
 
 # Press any key to close the image
 cv2.waitKey(0)

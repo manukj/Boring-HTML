@@ -1,7 +1,7 @@
 <html>
 
 <head>
-
+    <link rel="shortcut icon" href="../static/title.png" />
     <!-- bootstrap css   -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -147,13 +147,19 @@
 
     #Loading {
         visibility: hidden;
-        background: #000000;
         width: 100%;
         height: 100%;
     }
 
     #Content {
         visibility: visible;
+    }
+
+    .projectImage {
+        height: 500px;
+        padding: 5px;
+        border: 8px solid #000000;
+        background-color: #e6e6e6;
     }
 </style>
 
@@ -179,7 +185,7 @@
         document.getElementById("camera_video_screen").style.animationName = "fadeIn";
 
     }
-    function showProject(a) {
+    function showProject(a, image_output_url, image_inpput_url) {
 
         //  show project_screern
         document.getElementById("project_screen").style.visibility = "visible";
@@ -190,7 +196,9 @@
         document.getElementById("camera_video_screen").style.height = "0%";
         document.getElementById("camera_video_screen").style.animationName = "";
 
-        document.getElementById("project_demo").src = "dummy_image/project.jpeg"
+
+        document.getElementById("project_demo_input").src = image_inpput_url;
+        document.getElementById("project_demo_output").src = image_output_url;
     }
     // end of taggle functions
 
@@ -262,10 +270,13 @@
                                         <p class="card-text">small description about the project .</p>
                                     </div>
                                 </div>
-                                <div class="col-8">
-                                    <img class="border fadeIn" src="static/dummy_image/project.jpeg" id="project_demo">
-
+                                <div class="col-8 mt-4">
+                                    <img class="border shadow fadeIn projectImage" id="project_demo_input"
+                                        style="height: 400px;">
+                                    <img class="border shadow fadeIn projectImage" id="project_demo_output"
+                                        style="height: 400px;">
                                 </div>
+
                             </div>
                             <!-- end of project demo sceen  -->
                         </div>
@@ -277,17 +288,30 @@
             <div class="col-12 lower border-top">
 
                 <!-- each project  -->
-                {% for i in range(11) %}
-                <div class="card shadow crusor" onmouseover="showProject(1)" onmouseout="showUpload()"
-                    onclick="window.location.href='edit'">
-                    <img src="static/dummy_image/project.jpeg" class="card-img-top" style="height: 50%" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Project {{i}}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">28/19/2019</h6>
-                        <p class="card-text">small description about the project .</p>
-                    </div>
+                {%if result.get('project').get('total')>0 %}
+                {% for i in result.get('project').get('projects').values() %}
+
+                {%set url_out_image = i.get("imgOut")%}
+                {%set url_inp_image = i.get("imgInp")%}
+                {%set project_name = i.get("name") %}
+                <div class="card shadow crusor" onmouseover="showProject(1,'{{url_out_image}}','{{url_inp_image}}')"
+                    onmouseout="showUpload()">
+                    <img src={{i.get("imgOut")}}
+                        style="height: 50%; border: 1px solid #000000; background-color: #e6e6e6;" class="card-img-top"
+                        style="height: 50%;" alt="...">
+                    <form id="form-id" method="POST" action="edit">
+                        <input type="hidden" id = "project_name" name ="project_name" value='{{project_name}}' >
+                        <div class="card-body" onclick="edit_code('{{project_name}}')" >
+                            <h5 class="card-title">{{project_name}}</h5>
+                            
+                            <p class="card-text">{{i.get("desc")}}</p>
+                        </div>
+                    </form>
                 </div>
                 {% endfor %}
+                {%endif%}
+
+
             </div>
         </div>
     </div>
@@ -312,6 +336,7 @@
                         <img id="cropper-canvas-image" />
                     </div>
                     <form action="MachineLearning.html" id="form" method="POST">
+                        Project Name <input type="text" id="projectName" name="projectName" required>
                         <input type="hidden" id="custId" name="custId">
                         <div id="cropped-result"></div>
                         <button style="margin: 10px;" class="btn btn-dark " onclick="ICropper.cropImage(this)"
@@ -353,6 +378,16 @@
 
 
 <script>
+
+
+    function edit_code(project_name)
+    {
+        document.getElementById('project_name').value = project_name;
+        document.getElementById('form-id').submit();
+    }
+
+
+
     // Get the modal
     var modal = document.getElementById("myModal");
 
@@ -395,15 +430,17 @@
                     $cropperCanvasImage.attr('src', e.target.result)
                 };
                 reader.readAsDataURL(input.files[0]);
-                setTimeout(initCropper, 1000);
+                setTimeout(initCropper, 500);
             }
         }
 
         function initCropper() {
             $cropperCanvasImage.cropper({
-                aspectRatio: 0
+                aspectRatio: 0,
+
             });
         }
+
 
         function cropImage() {
             let imgUrl = $cropperCanvasImage.data('cropper').getCroppedCanvas().toDataURL();

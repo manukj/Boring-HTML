@@ -12,10 +12,22 @@ import os
 import tensorflow as tf
 import sys
 import time
+from subprocess import call
+from os import urandom
+import collections
 
 
-from flask_caching import Cache 
-cache = Cache()
+
+
+app = Flask(__name__,template_folder='template')
+app.debug = True
+app.secret_key = urandom(24)
+
+login_status = 0
+code = ""
+
+
+
 
 
 #--------------------MachineLearning---------------------------------------- 
@@ -81,11 +93,11 @@ num_detections = detection_graph.get_tensor_by_name('num_detections:0')
 
 # --------------------------End MachineLearning-------------------------------
 
-app = Flask(__name__,template_folder='template')
-app.debug = True
-app.secret_key = urandom(24)
 
-login_status = 0
+
+
+
+
 
 
 #this is enough
@@ -107,16 +119,31 @@ auth = firebase.auth()
 data1 = {}
 
 
+
+
 @app.route("/")
 def renderIndexPage():
-    if 'username' in session:
+    if 'userId' in session:
         return render_template('dashboard.html',result = data1)
     return render_template("index.html")
+
+@app.route("/dashboard")
+def renderDashboard():
+    if 'userId' in session:
+        db = firebase.database()
+        values = db.child(session["userId"]).get().val()
+        data1["firstName"] = values.get("firstName")
+        data1["lastName"] = values.get("lastName")
+        data1["password"] = "password"
+        data1["email"] = values.get("email")
+        data1["project"] = convert(values.get("project"))
+        return render_template('dashboard.html',result = data1)
+    return render_template("index.html")
+
 
 @app.route("/renderLoginAccessPage", methods = ['GET', 'POST'])
 def renderLoginAccessPage():
     if request.method == 'POST':
-        
         firebase = pyrebase.initialize_app(firebaseConfig)
         auth = firebase.auth()
         data = request.form.to_dict()
@@ -127,30 +154,37 @@ def renderLoginAccessPage():
         password = str(data.get("password"))
         try:
             user = auth.sign_in_with_email_and_password(email,password)
-            print("added")
+            print("added",user)
             db = firebase.database()
-            all_users = db.child("/").get()
-            for user in all_users.each():
-                users = user.key()
-                values = user.val()
-                print (values.get("email").encode('utf-8'))
-                if email == values.get("email").encode('utf-8'):
-                    print("found")
-                    break
-
-            data1["firstName"] = values.get("firstName").encode('utf-8')
-            data1["lastName"] = values.get("lastName").encode('utf-8')
+            values = db.child(user['localId']).get().val()
+            data1["firstName"] = values.get("firstName")
+            data1["lastName"] = values.get("lastName")
             data1["password"] = "password"
-            data1["email"] = values.get("email").encode('utf-8')
-            data1["project"] =  values.get("project")
-            session['username'] = email
+            data1["email"] = values.get("email")
+            data1["project"] = convert(values.get("project"))
+            session['userId'] = user['localId']
+
             return redirect(url_for('renderIndexPage'))
         except Exception as e:
             print("error ",e)
+            e = json.loads(e.args[1])
+            e = (e["error"]["message"])
             # e = json.loads(e.args[1])
             # e = (e["error"]["message"])
             return render_template("login.html",us = e)
     return render_template("login.html")
+
+
+def convert(data):
+    if isinstance(data, str):
+        return str(data)
+    elif isinstance(data, collections.Mapping):
+        return dict(map(convert, data.items()))
+    elif isinstance(data, collections.Iterable):
+        return type(data)(map(convert, data))
+    else:
+        return data
+
 
 
 @app.route("/registerUser", methods = ['POST','GET'])
@@ -172,20 +206,20 @@ def registerUser():
         data1["email"] = email
         data1["project"] = {"total":0}
 
-        projects = {}
-        pjt = {}
-        pjt ["desc"] = "This is the first project's desciption."
-        pjt ["img"] = "a.jpg"
-        pjt ["code"] = "a.text"
-        projects["project1"] = pjt
+        # projects = {}
+        # pjt = {}
+        # pjt ["desc"] = "This is the first project's desciption."
+        # pjt ["img"] = "a.jpg"
+        # pjt ["code"] = "a.text"
+        # projects["project1"] = pjt
 
 
-        pjt = {}
-        pjt ["desc"] = "This is the second project's desciption."
-        pjt ["img"] = "a.jpg"
-        pjt ["code"] = "a.text"
-        projects["project2"] = pjt
-        data1["project"]["projects"] = projects
+        # pjt = {}
+        # pjt ["desc"] = "This is the second project's desciption."
+        # pjt ["img"] = "a.jpg"
+        # pjt ["code"] = "a.text"
+        # projects["project2"] = pjt
+        # data1["project"]["projects"] = projects
     #
 	# pjt = {}
 	# projects = {}
@@ -197,36 +231,35 @@ def registerUser():
 	# projects['project'] = pjt
     #     data1["project"] = projects
         # firebase = FirebaseApplication('https://boring-html.firebaseio.com/', None)
+
         firebase = pyrebase.initialize_app(firebaseConfig)
 
         auth = firebase.auth()
         try:
-            auth.create_user_with_email_and_password(email,password)
+            user = auth.create_user_with_email_and_password(email,password)
         except Exception as e:
             e = json.loads(e.args[1])
             e = (e["error"]["message"])
             return render_template("register.html",us = e)
         db = firebase.database()
-        db.child(firstName).set(data1)
+        db.child(user['localId']).set(data1)
         print("added")
-        session['username'] = email
-        session['data'] = data1
         return redirect(url_for('renderIndexPage'))
     else:
         return render_template("register.html")
 
 
+
+
+
+        
+
 @app.route("/MachineLearning.html" ,methods = ['POST','GET'])
 def MachineLearning():
-    # data = request.form.to_dict()
-    # print("JSON data: displaying", data)
-    # return render_template("login.html")
-    # npimg = numpy.fromfile(request.files['image'], numpy.uint8)
-    # # convert numpy array to image
-    # img = cv2.imdecode(npimg, cv2.IMREAD_GRAYSCALE)
-    # cv2.imshow('dst_rt', img)
-    
+    global code
     url = (request.form['custId'])
+    projectName = (request.form['projectName'])
+    session["projectName"]=projectName
     resp = urllib.request.urlopen(url)
     input_image = np.asarray(bytearray(resp.read()), dtype="uint8")
     input_image = cv2.imdecode(input_image, cv2.IMREAD_COLOR)
@@ -238,10 +271,10 @@ def MachineLearning():
     (boxes, scores, classes, num) = sess.run(
         [detection_boxes, detection_scores, detection_classes, num_detections],
         feed_dict={image_tensor: image_expanded})
-
+    #print([category_index.get(i) for i in classes[0]])
     # Draw the results of the detection (aka 'visulaize the results')
 
-    vis_util.visualize_boxes_and_labels_on_image_array(
+    image,code = vis_util.visualize_boxes_and_labels_on_image_array(
         output_image,
         np.squeeze(boxes),
         np.squeeze(classes).astype(np.int32),
@@ -252,28 +285,74 @@ def MachineLearning():
         min_score_thresh=0.60)
 
     # All the results have been drawn on image. Now display the image.
+    
     time.sleep(1)
     cv2.imwrite('static/Output.jpg', output_image)
-    return render_template('MachineLearning.html')
+    
+    return render_template('MachineLearning.html',display_code = code)
 
 @app.route("/logOut")
 def logOut():
-    session.pop('username')
+    session.pop('userId')
     return redirect(url_for('renderIndexPage'))
 
-@app.route("/edit")
+@app.route("/edit",methods = ['POST','GET'])
 def edit():
-    return render_template('edit.html')
+    if('userId' in session):
+        db = firebase.database()
+        project_name = request.form['project_name']
+        print(project_name)
+        code_of_project = db.child(session['userId']).child("project").child("projects").child(project_name).child("code").get().val()
+        print("code",code_of_project)
+        return render_template('edit.html',code = code_of_project)
+    return render_template('index.html')
 
 @app.route("/addProject")
 def renderAddProject():
-    time.sleep(3)
-    return render_template('dashboard.html',result = data1)
+    if("projectName" in session and 'userId' in session):
+        print("name exisist")
+        projectName = session["projectName"]
+        firebase = pyrebase.initialize_app(firebaseConfig)
+        storage = firebase.storage()
+        print(code)
+        # print(type(data1["firstName"]))
+        # print(type(projectName))
+        # print(type("/Input.jpg"))
+        # print(type("/"))
+
+
+        inputImagePAth = data1["firstName"]+"/"+projectName+"/Input.jpg"
+        oututImagePAth = data1["firstName"]+"/"+projectName+"/Output.jpg"
+        storage.child(inputImagePAth).put("static/Input.jpg")
+        storage.child(oututImagePAth).put("static/Output.jpg")
+
+        pjt = {}
+        pjt ["name"] = projectName
+        pjt ["desc"] = projectName+" project's desciption."
+        pjt ["imgOut"] = storage.child(oututImagePAth).get_url(None)
+        pjt ["imgInp"] = storage.child(inputImagePAth).get_url(None)
+        pjt ["code"] = code
+
+
+        db = firebase.database()
+        
+        db.child(session['userId']).child("project").child("projects").child(projectName).set(pjt)
+    
+
+        print(session['userId'])
+
+        totalProject = db.child(session['userId']).child("project").child("total").get().val()
+        print("total",totalProject)
+        totalProject = totalProject + 1
+        print(totalProject)
+        
+        db.child(session['userId']).child("project").child("total").set(totalProject)
+        return redirect(url_for('renderDashboard'))
+    return render_template('index.html')
 
 
 
 if __name__ == '__main__':
    flag_login = 0
    auth = False
-   cache.init_app(app)
    app.run(debug = True)
